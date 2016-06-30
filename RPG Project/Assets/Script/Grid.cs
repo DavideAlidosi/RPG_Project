@@ -43,7 +43,7 @@ public class Grid : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (refGC.phase == GamePhase.Movimento)
+        /*if (refGC.phase == GamePhase.Movimento)
         {
             foreach (var cell in cellMat)
             {
@@ -52,8 +52,8 @@ public class Grid : MonoBehaviour {
 
             }
         }
-        else
-        {
+        
+        
             int n = 0;
             foreach (var cell in cellMat)
             {
@@ -69,6 +69,8 @@ public class Grid : MonoBehaviour {
                 cell.isFree = false;
                 n++;
             }
-        }
+        }*/
 	}
+
+    
 }
