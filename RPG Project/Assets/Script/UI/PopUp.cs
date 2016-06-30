@@ -14,6 +14,7 @@ public class PopUp : MonoBehaviour {
     {
         Debug.Log("Over it!!!");
         isOver = true;
+        //ciao
     }
 
     // Update is called once per frame
