@@ -13,7 +13,7 @@ public class PopUp : MonoBehaviour {
     void OnMouseOver()
     {
         Debug.Log("Over it!!!");
-        isOver == true;
+        isOver = true;
     }
 
     // Update is called once per frame
