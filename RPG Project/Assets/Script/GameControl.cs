@@ -3,7 +3,9 @@ using System.Collections;
 public enum GamePhase {Selezione, Movimento,Azione,Combattimento,TurnoNemici,FineTurno }
 public class GameControl : MonoBehaviour {
     public GamePhase phase = GamePhase.Selezione;
-    public GameObject firstCell;
+    public GameObject playerCell;
+    public GameObject enemyCell;
+
  
 	// Use this for initialization
 	void Start () {

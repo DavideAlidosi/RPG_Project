@@ -4,15 +4,19 @@ using System.Collections.Generic;
 
 public class FogOfWar : MonoBehaviour {
 
-    private Grid grid;
+    private Grid refGrid;
+    GameControl refGC;
     //private int vista = 4;
     public List<Cell> enemyCell = new List<Cell>();
     public List<Cell> destroyCell = new List<Cell>();
+
     //Cell enemyCell;
 
     void Start()
     {
-        grid = FindObjectOfType<Grid>();
+        refGrid = FindObjectOfType<Grid>();
+        refGC = FindObjectOfType<GameControl>();
+        RefreshEnemyList();
     }
 
     public void Fog(Vector2 pos,int vista)
@@ -42,23 +46,24 @@ public class FogOfWar : MonoBehaviour {
                 if (y > 19)
                     continue;
 
-                if (grid.cellMat[i,y].isWall)
+                if (refGrid.cellMat[i,y].isWall)
                 {
                     continue;
                 }
                 if (Mathf.Abs(i - _x) + Mathf.Abs(y - _y) <= (vista))
                 {
-                    SpriteRenderer sr = grid.cellMat[i, y].gameObject.GetComponent<SpriteRenderer>();
+                    SpriteRenderer sr = refGrid.cellMat[i, y].gameObject.GetComponent<SpriteRenderer>();
                     sr.color = Color.blue;
-                    grid.cellMat[i, y].isFree = true;
-                    destroyCell.Add(grid.cellMat[i, y]);
+                    refGrid.cellMat[i, y].isFree = true;
+                    destroyCell.Add(refGrid.cellMat[i, y]);
 
-                    if (grid.cellMat[i,y].GetComponentInChildren<Enemy>())
+                    //coloring the enemy cell and toggle the status free
+                    if (refGrid.cellMat[i,y].GetComponentInChildren<Enemy>())
                     {
-                        enemyCell.Add(grid.cellMat[i, y]);
+                        
                         //enemyCell = grid.cellMat[i, y];
-                        grid.cellMat[i, y].isFree = false;
-                        grid.cellMat[i, y].GetComponent<SpriteRenderer>().color = Color.red;
+                        refGrid.cellMat[i, y].isFree = false;
+                        refGrid.cellMat[i, y].GetComponent<SpriteRenderer>().color = Color.red;
                     }
                     
                 }
@@ -72,10 +77,19 @@ public class FogOfWar : MonoBehaviour {
 
             }
         }
+
+        //Coloring the adjacent of enemy
         if (enemyCell != null)
         {
+            RefreshEnemyList();
             GetEnemy();
+            
         }
+        
+        //remove all cell from this list for optimization
+
+        enemyCell.Clear();
+        
         
     }
 
@@ -95,13 +109,13 @@ public class FogOfWar : MonoBehaviour {
             if (cell.myJ > 18)
                 continue;
 
-            if (grid.cellMat[cell.myI+1,cell.myJ].isFree)            
+            if (refGrid.cellMat[cell.myI+1,cell.myJ].isFree)            
                 continue;
-            if (grid.cellMat[cell.myI, cell.myJ+1].isFree)            
+            if (refGrid.cellMat[cell.myI, cell.myJ+1].isFree)            
                 continue;
-            if (grid.cellMat[cell.myI - 1, cell.myJ].isFree)
+            if (refGrid.cellMat[cell.myI - 1, cell.myJ].isFree)
                 continue;
-            if (grid.cellMat[cell.myI, cell.myJ - 1].isFree)
+            if (refGrid.cellMat[cell.myI, cell.myJ - 1].isFree)
                 continue;
 
             
@@ -130,32 +144,79 @@ public class FogOfWar : MonoBehaviour {
         {
             int newI = cell.myI;
             int newJ = cell.myJ;
-            if (grid.cellMat[newI + 1, newJ].isFree)
+            if (refGrid.cellMat[newI + 1, newJ].isFree)
             {
-                grid.cellMat[newI + 1, newJ].isCombat = true;
-                grid.cellMat[newI + 1, newJ].GetComponent<SpriteRenderer>().color = Color.red;
+                refGrid.cellMat[newI + 1, newJ].isCombat = true;
+                refGrid.cellMat[newI + 1, newJ].GetComponent<SpriteRenderer>().color = Color.red;
             }
 
-            if (grid.cellMat[newI - 1, newJ].isFree)
+            if (refGrid.cellMat[newI - 1, newJ].isFree)
             {
-                grid.cellMat[newI - 1, newJ].isCombat = true;
-                grid.cellMat[newI - 1, newJ].GetComponent<SpriteRenderer>().color = Color.red;
+                refGrid.cellMat[newI - 1, newJ].isCombat = true;
+                refGrid.cellMat[newI - 1, newJ].GetComponent<SpriteRenderer>().color = Color.red;
             }
 
-            if (grid.cellMat[newI, newJ + 1].isFree)
+            if (refGrid.cellMat[newI, newJ + 1].isFree)
             {
-                grid.cellMat[newI, newJ + 1].isCombat = true;
-                grid.cellMat[newI, newJ + 1].GetComponent<SpriteRenderer>().color = Color.red;
+                refGrid.cellMat[newI, newJ + 1].isCombat = true;
+                refGrid.cellMat[newI, newJ + 1].GetComponent<SpriteRenderer>().color = Color.red;
             }
 
-            if (grid.cellMat[newI, newJ - 1].isFree)
+            if (refGrid.cellMat[newI, newJ - 1].isFree)
             {
-                grid.cellMat[newI, newJ - 1].isCombat = true;
-                grid.cellMat[newI, newJ - 1].GetComponent<SpriteRenderer>().color = Color.red;
+                refGrid.cellMat[newI, newJ - 1].isCombat = true;
+                refGrid.cellMat[newI, newJ - 1].GetComponent<SpriteRenderer>().color = Color.red;
             }
         }
-        enemyCell.Clear();
+    }
 
+    void RefreshEnemyList()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            for (int j = 0; j < 20; j++)
+            {
+                if (refGrid.cellMat[i, j].GetComponentInChildren<Enemy>())
+                {
+                    enemyCell.Add(refGrid.cellMat[i, j]);
+                }
+            }
+        }
+    }
+
+    public void GetEnemyNearPlayer()
+    {
+        int newI = GetComponentInParent<Cell>().myI;
+        int newJ = GetComponentInParent<Cell>().myJ;
+        
+        if (refGrid.cellMat[newI + 1, newJ].GetComponentInChildren<Enemy>())
+        {
+            refGC.enemyCell = refGrid.cellMat[newI + 1, newJ].gameObject;
+            refGrid.cellMat[newI + 1, newJ].GetComponentInChildren<Enemy>().isNear = true;
+                
+        }
+
+        if (refGrid.cellMat[newI - 1, newJ].GetComponentInChildren<Enemy>())
+        {
+            refGC.enemyCell = refGrid.cellMat[newI - 1, newJ].gameObject;
+            refGrid.cellMat[newI - 1, newJ].GetComponentInChildren<Enemy>().isNear = true;
+                
+        }
+
+        if (refGrid.cellMat[newI, newJ + 1].GetComponentInChildren<Enemy>())
+        {
+            refGC.enemyCell = refGrid.cellMat[newI, newJ + 1].gameObject;
+            refGrid.cellMat[newI, newJ + 1].GetComponentInChildren<Enemy>().isNear = true;
+                
+        }
+
+        if (refGrid.cellMat[newI, newJ - 1].GetComponentInChildren<Enemy>())
+        {
+            refGC.enemyCell = refGrid.cellMat[newI, newJ - 1].gameObject;
+            refGrid.cellMat[newI, newJ - 1].GetComponentInChildren<Enemy>().isNear = true;
+
+        }
         
     }
+    
 }
