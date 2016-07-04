@@ -47,7 +47,7 @@ public class Cell : MonoBehaviour {
                 pos = new Vector2(myI, myJ);
                 fg.Fog(pos,4);
                 fg.AStar();
-                //<enemyRef.CheckAdjacent();
+                //enemyRef.CheckAdjacent();
             }
             
 

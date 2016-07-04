@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class PopUp : MonoBehaviour {
 
-    public bool isOver;
     public Image tooltipPanel;
     ShowTool refShowTool;
 

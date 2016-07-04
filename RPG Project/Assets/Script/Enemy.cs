@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour {
     public int cos;
     public int hp;
     public bool isNear = false;
+    public int newI;
+    public int newJ;
     Grid refGrid;
     // Use this for initialization
     void Start () {
@@ -24,12 +26,13 @@ public class Enemy : MonoBehaviour {
 
     public void CheckAdjacent()
     {
-        int newI = GetComponentInParent<Cell>().myI;
-        int newJ = GetComponentInParent<Cell>().myJ;
+        newI = GetComponentInParent<Cell>().myI;
+        newJ = GetComponentInParent<Cell>().myJ;
 
         if (refGrid.cellMat[newI + 1, newJ].GetComponentInChildren<Player>())
         {
             isNear = true;
+            refGrid.cellMat[newI + 1, newJ].GetComponent<SpriteRenderer>().color = Color.red;
         }
 
         if (refGrid.cellMat[newI - 1, newJ].GetComponentInChildren<Player>())
