@@ -5,10 +5,15 @@ public class Player : MonoBehaviour {
     public SpriteRenderer sr;
     Grid gridRef;
     GameControl gcRef;
+    public int str;
+    public int cos;
+    public int hp;
     // Use this for initialization
     void Awake()
     {
-        
+        str = 10;
+        cos = 5;
+        hp = 5;
     }
 	void Start () {
         gcRef = FindObjectOfType<GameControl>();
@@ -26,12 +31,13 @@ public class Player : MonoBehaviour {
 
         for (int i = 0; i < 20; i++)
         {
-            for (int j = 0; j < 19; j++)
+            for (int j = 0; j < 20; j++)
             {
                 if (gridRef.cellMat[i, j].isSpawnCell)
                 {                   
                     this.transform.parent = gridRef.cellMat[i, j].transform;
                     this.transform.localPosition = new Vector3(0, 0, 1);
+
                 }
             }
         }

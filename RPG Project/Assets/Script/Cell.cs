@@ -10,17 +10,24 @@ public class Cell : MonoBehaviour {
     public Player playerRef;
     Vector2 pos;
     public FogOfWar fg;
+    public bool isWall = false;
+    public bool isCombat = false;
+    public Enemy enemyRef;
 
     // Use this for initialization
     void Start () {
         gcRef = FindObjectOfType<GameControl>();
         playerRef = FindObjectOfType<Player>();
-        
+        fg = FindObjectOfType<FogOfWar>();
+        enemyRef = GetComponentInChildren<Enemy>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        fg = FindObjectOfType<FogOfWar>();
+        if (isWall)
+        {
+            GetComponent<SpriteRenderer>().color = Color.black;
+        }
     }
 
     void OnMouseUp()
@@ -38,8 +45,9 @@ public class Cell : MonoBehaviour {
                 gcRef.firstCell = this.gameObject;
                 
                 pos = new Vector2(myI, myJ);
-                fg.Fog(pos);
-                //
+                fg.Fog(pos,4);
+                fg.AStar();
+                //<enemyRef.CheckAdjacent();
             }
             
 
@@ -50,13 +58,28 @@ public class Cell : MonoBehaviour {
             {
                 
                 playerRef.MovePlayer(myI,myJ);
-                gcRef.phase = GamePhase.Selezione;
-                gcRef.firstCell.GetComponent<Cell>().sBox.GetComponent<SpriteRenderer>().color = Color.clear;
-                
-                
+                if (isCombat)
+                {
+                    gcRef.phase = GamePhase.Combattimento;
+                    gcRef.firstCell.GetComponent<Cell>().sBox.GetComponent<SpriteRenderer>().color = Color.clear;
+                    fg.CleanMove();
 
+                }
+                else if(!isCombat)
+                {
+                    gcRef.phase = GamePhase.Selezione;
+                    gcRef.firstCell.GetComponent<Cell>().sBox.GetComponent<SpriteRenderer>().color = Color.clear;
+                    fg.CleanMove();
+                }
             }
-            
+        }
+        else if (gcRef.phase == GamePhase.Combattimento)
+        {
+            if (GetComponentInChildren<Enemy>() && GetComponentInChildren<Enemy>().isNear)
+            {
+                Destroy(GetComponentInChildren<Enemy>().gameObject);
+                gcRef.phase = GamePhase.Selezione;
+            }
         }
 
 
