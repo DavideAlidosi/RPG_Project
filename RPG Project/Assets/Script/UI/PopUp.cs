@@ -17,7 +17,7 @@ public class PopUp : MonoBehaviour {
 
     void OnMouseEnter()
     {
-        //ciao.gameObject.SetActive(true);
+        
         if (GetComponentInChildren<Player>())
         {
             ActivateTooltip();

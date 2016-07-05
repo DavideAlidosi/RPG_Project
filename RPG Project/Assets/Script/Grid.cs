@@ -10,6 +10,9 @@ public class Grid : MonoBehaviour {
     public Cell[,] cellMat;
     GameControl refGC;
 
+    Transform ciao;
+
+
     public GameObject enemy;
 
 	// Use this for initialization
@@ -39,7 +42,7 @@ public class Grid : MonoBehaviour {
                     
                     
                 }
-
+                
                 if (n == 250)
                 {
                     GameObject newEnemy = Instantiate(enemy);

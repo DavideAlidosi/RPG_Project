@@ -33,8 +33,13 @@ public class Cell : MonoBehaviour {
         {
             GetComponent<SpriteRenderer>().color = Color.black;
         }
-    }
 
+        
+    }
+    void OnMouseEnter()
+    {
+
+    }
     void OnMouseUp()
     {
 
@@ -60,10 +65,13 @@ public class Cell : MonoBehaviour {
         {
             if (isFree)
             {
-                refMPU.Activate();
+                refFog.ResetEnemyStatus();
                 gcRef.phase = GamePhase.Azione;
                 playerRef.MovePlayer(myI,myJ);
-                if (isCombat)
+                refFog.GetEnemyNearPlayer();
+                refMPU.Activate();
+                //logica funzionante ma errata
+                /*if (isCombat)
                 {
                     gcRef.phase = GamePhase.Combattimento;
                     gcRef.playerCell.GetComponent<Cell>().sBox.GetComponent<SpriteRenderer>().color = Color.clear;
@@ -77,7 +85,7 @@ public class Cell : MonoBehaviour {
                     gcRef.phase = GamePhase.Selezione;
                     gcRef.playerCell.GetComponent<Cell>().sBox.GetComponent<SpriteRenderer>().color = Color.clear;
                     refFog.CleanMove();
-                }
+                }*/
             }
         }
         else if (gcRef.phase == GamePhase.Combattimento)

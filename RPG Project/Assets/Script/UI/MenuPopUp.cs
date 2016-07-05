@@ -4,11 +4,22 @@ using UnityEngine.UI;
 
 public class MenuPopUp : MonoBehaviour {
     public GameObject menuPanel;
+    
+
+    
 	// Use this for initialization
+    void Awake ()
+    {
+        
+    }
+
 	void Start () {
+
         
-        
-	}
+
+    }
+
+
 	
 	// Update is called once per frame
 	void Update () {

@@ -218,5 +218,17 @@ public class FogOfWar : MonoBehaviour {
         }
         
     }
-    
+
+    public void ResetEnemyStatus()
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (var enemy in enemies)
+        {
+            enemy.isNear = false;
+        }
+    }
+
+
+
+
 }
