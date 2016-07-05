@@ -36,7 +36,7 @@ public class Grid : MonoBehaviour {
                 
                 n++;
 
-                if (n == 150)
+                if (n == 154)
                 {
                     cellMat[i, j].isSpawnCell = true;
                     
@@ -55,6 +55,31 @@ public class Grid : MonoBehaviour {
                     GameObject newEnemy = Instantiate(enemy);
                     newEnemy.GetComponent<Enemy>().str = Random.Range(2, 6);
                     
+                    newEnemy.transform.parent = cellMat[i, j].transform;
+                    newEnemy.transform.localPosition = new Vector3(0, 0, 1);
+                }
+
+                if (n == 298)
+                {
+                    GameObject newEnemy = Instantiate(enemy);
+                    newEnemy.GetComponent<Enemy>().str = Random.Range(2, 6);
+
+                    newEnemy.transform.parent = cellMat[i, j].transform;
+                    newEnemy.transform.localPosition = new Vector3(0, 0, 1);
+                }
+                if (n == 349)
+                {
+                    GameObject newEnemy = Instantiate(enemy);
+                    newEnemy.GetComponent<Enemy>().str = Random.Range(2, 6);
+
+                    newEnemy.transform.parent = cellMat[i, j].transform;
+                    newEnemy.transform.localPosition = new Vector3(0, 0, 1);
+                }
+                if (n == 379)
+                {
+                    GameObject newEnemy = Instantiate(enemy);
+                    newEnemy.GetComponent<Enemy>().str = Random.Range(2, 6);
+
                     newEnemy.transform.parent = cellMat[i, j].transform;
                     newEnemy.transform.localPosition = new Vector3(0, 0, 1);
                 }

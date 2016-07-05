@@ -5,18 +5,27 @@ public class Player : MonoBehaviour {
     public SpriteRenderer sr;
     Grid gridRef;
     GameControl gcRef;
+    FogOfWar fogRef;
+    MenuPopUp refMPU;
+
     public int str;
     public int cos;
     public int hp;
+    public int agi;
+
+
     // Use this for initialization
     void Awake()
     {
-        str = 10;
+        str = 5;
         cos = 5;
-        hp = 5;
+        hp = cos*4;
+        agi = 5;
     }
 	void Start () {
         gcRef = FindObjectOfType<GameControl>();
+        fogRef = FindObjectOfType<FogOfWar>();
+        refMPU = FindObjectOfType<MenuPopUp>();
         
 	}
 	
@@ -54,5 +63,37 @@ public class Player : MonoBehaviour {
         
     }
 
+    public void TestCombat()
+    {
+
+        Debug.Log("Ti ho attaccato");
+        gcRef.CombatPlayer();
+        if (gcRef.enemyCell.GetComponentInChildren<Enemy>().hp > 0)
+        {
+            gcRef.CombatEnemy();
+        }
+        gcRef.phase = GamePhase.Selezione;
+        gcRef.ResetToSelectionPhase();
+    }
+
+    public void TestWait()
+    {
+        Debug.Log("aspetto");
+        gcRef.phase = GamePhase.TurnoNemici;
+        gcRef.ResetToSelectionPhase();
+    }
+
+    public void TestUse()
+    {
+        Debug.Log("usa usa");
+        gcRef.phase = GamePhase.Selezione;
+        gcRef.ResetToSelectionPhase();
+    }
+    public void TestItem()
+    {
+        Debug.Log("Lista oggetti");
+        gcRef.phase = GamePhase.Selezione;
+        gcRef.ResetToSelectionPhase();
+    }
     
 }

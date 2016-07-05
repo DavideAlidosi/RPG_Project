@@ -22,7 +22,7 @@ public class PopUp : MonoBehaviour {
         {
             ActivateTooltip();
             refShowTool.strTxt.text = "Str : " + GetComponentInChildren<Player>().str;
-            refShowTool.cosTxt.text = "Cos : " + GetComponentInChildren<Player>().cos;
+            refShowTool.cosTxt.text = "Agi : " + GetComponentInChildren<Player>().agi;
             refShowTool.hpTxt.text = "HP : " + GetComponentInChildren<Player>().hp;
         }
 
@@ -30,8 +30,9 @@ public class PopUp : MonoBehaviour {
         {
             ActivateTooltip();
             refShowTool.strTxt.text = "Str : " + GetComponentInChildren<Enemy>().str;
-            refShowTool.cosTxt.text = "Cos : " + GetComponentInChildren<Enemy>().cos;
+            refShowTool.cosTxt.text = "Agi : " + GetComponentInChildren<Enemy>().agi;
             refShowTool.hpTxt.text = "HP : " + GetComponentInChildren<Enemy>().hp;
+
         }
 
     }

@@ -31,6 +31,7 @@ public class ButtonController : MonoBehaviour
             if (enemy.isNear)
             {
                 bttnAtt.interactable = true;
+                break;
             }
             else
             {
@@ -46,6 +47,7 @@ public class ButtonController : MonoBehaviour
             if (enemy.isNear)
             {
                 bttnAtt.interactable = true;
+                break;
             }
             else
             {
