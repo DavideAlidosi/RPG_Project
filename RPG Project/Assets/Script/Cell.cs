@@ -44,6 +44,7 @@ public class Cell : MonoBehaviour {
             if (gcRef.phase == GamePhase.Movimento)
             {
                 sBox.color = Color.yellow;
+                gcRef.movmentCell.Add(this.gameObject);
             }
         }
     }

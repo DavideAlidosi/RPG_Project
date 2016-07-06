@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
     GameControl gcRef;
     FogOfWar fogRef;
     MenuPopUp refMPU;
+    Cell cellRef;
 
     public int str;
     public int cos;
@@ -26,8 +27,8 @@ public class Player : MonoBehaviour {
         gcRef = FindObjectOfType<GameControl>();
         fogRef = FindObjectOfType<FogOfWar>();
         refMPU = FindObjectOfType<MenuPopUp>();
-        
-	}
+        cellRef = FindObjectOfType<Cell>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -81,6 +82,14 @@ public class Player : MonoBehaviour {
         Debug.Log("aspetto");
         gcRef.phase = GamePhase.TurnoNemici;
         gcRef.ResetToSelectionPhase();
+
+        //Clear movement cells
+        foreach (GameObject target in gcRef.movmentCell)
+        {
+            cellRef.sBox.color = Color.clear;
+        }
+        //gcRef.movmentCell.ForEach((t) => { cellRef.sBox.color = Color.clear; });
+        gcRef.movmentCell.Clear();
     }
 
     public void TestUse()

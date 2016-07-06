@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 public enum GamePhase {Selezione, Movimento,Azione,Combattimento,TurnoNemici,FineTurno }
 public class GameControl : MonoBehaviour {
     public GamePhase phase = GamePhase.Selezione;
@@ -7,12 +9,16 @@ public class GameControl : MonoBehaviour {
     public GameObject playerCell;
     public GameObject enemyCell;
 
+    public List<GameObject> movmentCell = new List<GameObject>();
+
+    GameControl gcRef;
     Player plRef;
     FogOfWar fogRef;
     MenuPopUp refMPU;
 
     // Use this for initialization
     void Start () {
+        gcRef = FindObjectOfType<GameControl>();
         plRef = FindObjectOfType<Player>();
         fogRef = FindObjectOfType<FogOfWar>();
         refMPU = FindObjectOfType<MenuPopUp>();
@@ -28,6 +34,8 @@ public class GameControl : MonoBehaviour {
                 phase = GamePhase.Selezione;
                 ResetToSelectionPhase();
 
+                //Clear movement cells 
+                gcRef.movmentCell.Clear();
             }
         }
 
