@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour
+{
 
     public int str;
     public int cos;
@@ -15,26 +16,29 @@ public class Enemy : MonoBehaviour {
     GameControl refGC;
     public Cell refMyCell;
     public Cell nearestCell;
-    public List<Cell> mnhttnCell = new List<Cell>();
+    public List<Cell> moveCell = new List<Cell>();
+    public List<Cell> LookCell = new List<Cell>();
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         refGrid = FindObjectOfType<Grid>();
         refMyCell = GetComponentInParent<Cell>();
         refGC = FindObjectOfType<GameControl>();
-        //str = 4;
+        str = 4;
         cos = 3;
-        hp = cos*4;
-        agi = Random.Range(1,10);
+        hp = cos * 4;
+        agi = Random.Range(1, 10);
         vista = 4;
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void Test()
     {
@@ -47,12 +51,62 @@ public class Enemy : MonoBehaviour {
     {
         int myI = refMyCell.myI;
         int myJ = refMyCell.myJ;
-        mnhttnCell.Clear();
+        moveCell.Clear();
         isPlayerVisible = false;
+
+        Color ciao = new Color(Random.value, Random.value, Random.value);
 
         for (int i = (myI - vista); i <= (myI + vista); i++)
         {
             for (int j = (myJ - vista); j <= (myJ + vista); j++)
+            {
+                if (i < 0)
+                    continue;
+                if (j < 0)
+                    continue;
+                if (i > 19)
+                    continue;
+                if (j > 19)
+                    continue;
+                LookCell.Add(refGrid.cellMat[i, j]);
+                if (refGrid.cellMat[i, j].isWall)
+                {
+                    continue;
+                }
+
+                if (refGrid.cellMat[i, j].GetComponentInChildren<Enemy>())
+                {
+                    continue;
+                }
+                if (Mathf.Abs(i - myI) + Mathf.Abs(j - myJ) <= (vista))
+                {
+                    if (refGrid.cellMat[i, j].GetComponentInChildren<Player>())
+                    {
+                        isPlayerVisible = true;
+
+
+                    }
+                    //refGrid.cellMat[i, j].GetComponent<SpriteRenderer>().color = ciao;
+                }
+            }
+        }
+
+        if (isPlayerVisible)
+        {
+            RangeMove();
+        }
+    }
+
+    void RangeMove()
+    {
+        int myI = refMyCell.myI;
+        int myJ = refMyCell.myJ;
+        moveCell.Clear();
+
+        int rangeMove = 2;
+        for (int i = (myI - vista); i <= (myI + rangeMove); i++)
+        {
+            for (int j = (myJ - vista); j <= (myJ + rangeMove); j++)
             {
                 if (i < 0)
                     continue;
@@ -69,17 +123,16 @@ public class Enemy : MonoBehaviour {
                 }
                 if (refGrid.cellMat[i, j].GetComponentInChildren<Player>())
                 {
-                    isPlayerVisible = true;
                     continue;
                 }
                 if (refGrid.cellMat[i, j].GetComponentInChildren<Enemy>())
                 {
                     continue;
                 }
-                if (Mathf.Abs(i - myI) + Mathf.Abs(j - myJ) <= (vista))
+                if (Mathf.Abs(i - myI) + Mathf.Abs(j - myJ) <= (rangeMove))
                 {
-                    mnhttnCell.Add(refGrid.cellMat[i,j]);
-                    //refGrid.cellMat[i, j].GetComponent<SpriteRenderer>().color = Color.red;
+                    moveCell.Add(refGrid.cellMat[i, j]);
+                    refGrid.cellMat[i, j].GetComponent<SpriteRenderer>().color = Color.gray;
                 }
             }
         }
@@ -94,7 +147,7 @@ public class Enemy : MonoBehaviour {
 
         if (isPlayerVisible)
         {
-            foreach (var cell in mnhttnCell)
+            foreach (var cell in moveCell)
             {
 
 
@@ -106,7 +159,7 @@ public class Enemy : MonoBehaviour {
                 }
             }
         }
-        
+
     }
 
     public void MoveEnemy()
@@ -122,4 +175,61 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+
+    public void LookingCell()
+    {
+        int myI = refMyCell.myI;
+        int myJ = refMyCell.myJ;
+        LookCell.Clear();
+
+        for (int i = (myI - vista); i <= (myI + vista); i++)
+        {
+            for (int j = (myJ - vista); j <= (myJ + vista); j++)
+            {
+                if (i < 0)
+                    continue;
+                if (j < 0)
+                    continue;
+                if (i > 19)
+                    continue;
+                if (j > 19)
+                    continue;
+
+                if (refGrid.cellMat[i, j].GetComponentInChildren<Enemy>())
+                {
+                    continue;
+                }
+                if (refGrid.cellMat[i, j].isWall)
+                {
+                    continue;
+                }
+                if (Mathf.Abs(i - myI) + Mathf.Abs(j - myJ) <= vista)
+                {
+                    if (refGrid.cellMat[i, j].GetComponent<SpriteRenderer>().color != Color.red)
+                    {
+                        LookCell.Add(refGrid.cellMat[i, j]);
+                        refGrid.cellMat[i, j].GetComponent<SpriteRenderer>().color = Color.red;
+                    }
+                    
+                    
+
+                }
+                
+               
+
+
+            }
+        }
+    }
+
+    public void ResetLookingCell()
+    {
+        foreach (var cell in LookCell)
+        {
+            
+            cell.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+    }
+
+    
 }

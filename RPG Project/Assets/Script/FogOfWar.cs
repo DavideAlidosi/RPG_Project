@@ -91,7 +91,7 @@ public class FogOfWar : MonoBehaviour {
         
         
     }
-
+    // NON E' ASTAR  ma ricolora le celle in bianco e le rende di nuovo non libere
     public void AStar()
     {
         List<Cell> controlled = new List<Cell>();
@@ -139,31 +139,32 @@ public class FogOfWar : MonoBehaviour {
 
     void GetEnemy()
     {
+        
         foreach (var cell in enemyCell)
         {
             int newI = cell.myI;
             int newJ = cell.myJ;
             if (refGrid.cellMat[newI + 1, newJ].isFree)
             {
-                refGrid.cellMat[newI + 1, newJ].isCombat = true;
+                //refGrid.cellMat[newI + 1, newJ].isCombat = true;
                 refGrid.cellMat[newI + 1, newJ].GetComponent<SpriteRenderer>().color = Color.red;
             }
 
             if (refGrid.cellMat[newI - 1, newJ].isFree)
             {
-                refGrid.cellMat[newI - 1, newJ].isCombat = true;
+                //refGrid.cellMat[newI - 1, newJ].isCombat = true;
                 refGrid.cellMat[newI - 1, newJ].GetComponent<SpriteRenderer>().color = Color.red;
             }
 
             if (refGrid.cellMat[newI, newJ + 1].isFree)
             {
-                refGrid.cellMat[newI, newJ + 1].isCombat = true;
+                //refGrid.cellMat[newI, newJ + 1].isCombat = true;
                 refGrid.cellMat[newI, newJ + 1].GetComponent<SpriteRenderer>().color = Color.red;
             }
 
             if (refGrid.cellMat[newI, newJ - 1].isFree)
             {
-                refGrid.cellMat[newI, newJ - 1].isCombat = true;
+                //refGrid.cellMat[newI, newJ - 1].isCombat = true;
                 refGrid.cellMat[newI, newJ - 1].GetComponent<SpriteRenderer>().color = Color.red;
             }
         }
@@ -183,10 +184,10 @@ public class FogOfWar : MonoBehaviour {
         }
     }
 
-    public void GetEnemyNearPlayer()
+    public void GetEnemyNearPlayer(int newI,int newJ)
     {
-        int newI = GetComponentInParent<Cell>().myI;
-        int newJ = GetComponentInParent<Cell>().myJ;
+        //int newI = GetComponentInParent<Cell>().myI;
+        //int newJ = GetComponentInParent<Cell>().myJ;
         
         if (refGrid.cellMat[newI + 1, newJ].GetComponentInChildren<Enemy>())
         {
@@ -216,6 +217,41 @@ public class FogOfWar : MonoBehaviour {
 
         }
         
+    }
+
+    public void GetPlayerNearEnemy(int newI, int newJ)
+    {
+        //int newI = GetComponentInParent<Cell>().myI;
+        //int newJ = GetComponentInParent<Cell>().myJ;
+
+        if (refGrid.cellMat[newI + 1, newJ].GetComponentInChildren<Player>())
+        {
+            //refGC.enemyCell = refGrid.cellMat[newI + 1, newJ].gameObject;
+            refGrid.cellMat[newI , newJ].GetComponentInChildren<Enemy>().isNear = true;
+
+        }
+
+        if (refGrid.cellMat[newI - 1, newJ].GetComponentInChildren<Player>())
+        {
+            //refGC.enemyCell = refGrid.cellMat[newI - 1, newJ].gameObject;
+            refGrid.cellMat[newI , newJ].GetComponentInChildren<Enemy>().isNear = true;
+
+        }
+
+        if (refGrid.cellMat[newI, newJ + 1].GetComponentInChildren<Player>())
+        {
+            //refGC.enemyCell = refGrid.cellMat[newI, newJ + 1].gameObject;
+            refGrid.cellMat[newI, newJ ].GetComponentInChildren<Enemy>().isNear = true;
+
+        }
+
+        if (refGrid.cellMat[newI, newJ - 1].GetComponentInChildren<Player>())
+        {
+            //refGC.enemyCell = refGrid.cellMat[newI, newJ - 1].gameObject;
+            refGrid.cellMat[newI, newJ ].GetComponentInChildren<Enemy>().isNear = true;
+
+        }
+
     }
 
     public void ResetEnemyStatus()

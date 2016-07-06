@@ -44,6 +44,7 @@ public class Cell : MonoBehaviour {
             if (gcRef.phase == GamePhase.Movimento)
             {
                 sBox.color = Color.yellow;
+                gcRef.movementCell.Add(this.gameObject);
             }
         }
     }
@@ -78,26 +79,10 @@ public class Cell : MonoBehaviour {
                 refFog.ResetEnemyStatus();
                 gcRef.phase = GamePhase.Azione;
                 playerRef.MovePlayer(myI,myJ);
-                refFog.GetEnemyNearPlayer();
+                refFog.GetEnemyNearPlayer(this.myI,this.myJ);
                 refMPU.Activate();
                 gcRef.playerCell = this.gameObject;
-
-                //logica funzionante ma errata
-                /*if (isCombat)
-                {
-                    gcRef.phase = GamePhase.Combattimento;
-                    gcRef.playerCell.GetComponent<Cell>().sBox.GetComponent<SpriteRenderer>().color = Color.clear;
-                    refFog.GetEnemyNearPlayer();
-                    refFog.CleanMove();
-                    
-
-                }
-                else if(!isCombat)
-                {
-                    gcRef.phase = GamePhase.Selezione;
-                    gcRef.playerCell.GetComponent<Cell>().sBox.GetComponent<SpriteRenderer>().color = Color.clear;
-                    refFog.CleanMove();
-                }*/
+               
             }
         }
         else if (gcRef.phase == GamePhase.Combattimento)

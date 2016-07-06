@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 public enum GamePhase {Selezione, Movimento,Azione,Combattimento,TurnoNemici,FineTurno }
 public class GameControl : MonoBehaviour {
     public GamePhase phase = GamePhase.Selezione;
@@ -7,9 +9,12 @@ public class GameControl : MonoBehaviour {
     public GameObject playerCell;
     public GameObject enemyCell;
 
+    public List<GameObject> movementCell = new List<GameObject>();
+
     Player plRef;
     FogOfWar fogRef;
     MenuPopUp refMPU;
+
 
     // Use this for initialization
     void Start () {
@@ -40,7 +45,7 @@ public class GameControl : MonoBehaviour {
                 enemy.SearchPlayer();
                 enemy.MoveEnemy();
             }*/
-            phase = GamePhase.Selezione;
+            //phase = GamePhase.Selezione;
         }
         
     }
@@ -60,8 +65,6 @@ public class GameControl : MonoBehaviour {
         int totale = 50 + (strAtt * 5) - (agiDef * 2);
 
         int dice = Random.Range(1, 101);
-        Debug.Log(totale);
-        Debug.Log(dice);
         if (dice < totale)
         {
             Debug.Log("Player "+playerCell+ " Colpo andato a segno");
