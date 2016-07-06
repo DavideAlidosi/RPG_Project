@@ -8,11 +8,13 @@ public class Enemy : MonoBehaviour {
     public int cos;
     public int hp;
     public int agi;
-    public bool isNear = false;    
+    public bool isNear = false;
+    public bool isPlayerVisible = false;
     Grid refGrid;
     int vista;
     GameControl refGC;
     public Cell refMyCell;
+    public Cell nearestCell;
     public List<Cell> mnhttnCell = new List<Cell>();
 
     // Use this for initialization
@@ -45,6 +47,8 @@ public class Enemy : MonoBehaviour {
     {
         int myI = refMyCell.myI;
         int myJ = refMyCell.myJ;
+        mnhttnCell.Clear();
+        isPlayerVisible = false;
 
         for (int i = (myI - vista); i <= (myI + vista); i++)
         {
@@ -65,6 +69,7 @@ public class Enemy : MonoBehaviour {
                 }
                 if (refGrid.cellMat[i, j].GetComponentInChildren<Player>())
                 {
+                    isPlayerVisible = true;
                     continue;
                 }
                 if (refGrid.cellMat[i, j].GetComponentInChildren<Enemy>())
@@ -74,7 +79,7 @@ public class Enemy : MonoBehaviour {
                 if (Mathf.Abs(i - myI) + Mathf.Abs(j - myJ) <= (vista))
                 {
                     mnhttnCell.Add(refGrid.cellMat[i,j]);
-                    refGrid.cellMat[i, j].GetComponent<SpriteRenderer>().color = Color.red;
+                    //refGrid.cellMat[i, j].GetComponent<SpriteRenderer>().color = Color.red;
                 }
             }
         }
@@ -82,18 +87,38 @@ public class Enemy : MonoBehaviour {
 
     public void SearchPlayer()
     {
-        Cell nearestCell;
+        //Cell nearestCell;
+        int playerX = refGC.playerCell.GetComponent<Cell>().myI;
+        int playerY = refGC.playerCell.GetComponent<Cell>().myJ;
+        int distance = 1000;
 
-        foreach (var cell in mnhttnCell)
+        if (isPlayerVisible)
         {
-            
-            for (int i = 0; i < 20; i++)
+            foreach (var cell in mnhttnCell)
             {
-                for (int j = 0; j < 20; j++)
+
+
+                if (distance > Mathf.Abs(playerX - cell.myI) + Mathf.Abs(playerY - cell.myJ))
                 {
+                    distance = Mathf.Abs(playerX - cell.myI) + Mathf.Abs(playerY - cell.myJ);
+                    nearestCell = cell;
 
                 }
             }
+        }
+        
+    }
+
+    public void MoveEnemy()
+    {
+        if (nearestCell != null)
+        {
+            int nearestI = nearestCell.myI;
+            int nearestJ = nearestCell.myJ;
+            this.transform.parent = refGrid.cellMat[nearestI, nearestJ].transform;
+            this.transform.localPosition = new Vector3(0, 0, 1);
+            refMyCell = nearestCell;
+            nearestCell = null;
         }
     }
 
