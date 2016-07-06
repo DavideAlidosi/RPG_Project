@@ -36,10 +36,20 @@ public class Cell : MonoBehaviour {
 
         
     }
+    // Start cell selecting code
     void OnMouseEnter()
     {
-
+        if (this.isFree && !GetComponentInChildren<Player>())
+        {
+            if (gcRef.phase == GamePhase.Movimento)
+            {
+                sBox.color = Color.yellow;
+            }
+        }
     }
+
+    // End cell highlight code
+
     void OnMouseUp()
     {
 
@@ -99,7 +109,5 @@ public class Cell : MonoBehaviour {
                 refMPU.Deactivate();
             }
         }
-
-
     }
 }

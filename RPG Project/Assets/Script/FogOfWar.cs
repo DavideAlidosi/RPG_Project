@@ -83,7 +83,6 @@ public class FogOfWar : MonoBehaviour {
         {
             RefreshEnemyList();
             GetEnemy();
-            
         }
         
         //remove all cell from this list for optimization
