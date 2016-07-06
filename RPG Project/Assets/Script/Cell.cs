@@ -62,8 +62,8 @@ public class Cell : MonoBehaviour {
 
                 sBox.color = Color.green;
                 gcRef.phase++;
-                gcRef.playerCell = this.gameObject;
-                
+
+                gcRef.firstCell = this.gameObject;
                 pos = new Vector2(myI, myJ);
                 refFog.Fog(pos,4);
                 refFog.AStar();
@@ -80,6 +80,8 @@ public class Cell : MonoBehaviour {
                 playerRef.MovePlayer(myI,myJ);
                 refFog.GetEnemyNearPlayer();
                 refMPU.Activate();
+                gcRef.playerCell = this.gameObject;
+
                 //logica funzionante ma errata
                 /*if (isCombat)
                 {

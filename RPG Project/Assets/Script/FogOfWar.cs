@@ -95,7 +95,7 @@ public class FogOfWar : MonoBehaviour {
     public void AStar()
     {
         List<Cell> controlled = new List<Cell>();
-        bool find = true;
+        
         foreach (var cell in destroyCell)
         {
             
