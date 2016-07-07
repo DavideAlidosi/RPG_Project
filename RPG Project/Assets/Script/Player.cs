@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class Player : MonoBehaviour {
     public SpriteRenderer sr;
     Grid gridRef;
@@ -66,8 +67,6 @@ public class Player : MonoBehaviour {
 
     public void TestCombat()
     {
-
-        Debug.Log("Ti ho attaccato");
         gcRef.CombatPlayer();
         if (gcRef.enemyCell.GetComponentInChildren<Enemy>().hp > 0)
         {

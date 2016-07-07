@@ -9,12 +9,18 @@ public class GameControl : MonoBehaviour {
     public GameObject playerCell;
     public GameObject enemyCell;
 
+<<<<<<< HEAD
     public List<GameObject> movmentCell = new List<GameObject>();
 
     GameControl gcRef;
+=======
+    public List<GameObject> movementCell = new List<GameObject>();
+
+>>>>>>> RPG_Project/Master
     Player plRef;
     FogOfWar fogRef;
     MenuPopUp refMPU;
+
 
     // Use this for initialization
     void Start () {
@@ -48,7 +54,7 @@ public class GameControl : MonoBehaviour {
                 enemy.SearchPlayer();
                 enemy.MoveEnemy();
             }*/
-            phase = GamePhase.Selezione;
+            //phase = GamePhase.Selezione;
         }
         
     }
@@ -68,8 +74,6 @@ public class GameControl : MonoBehaviour {
         int totale = 50 + (strAtt * 5) - (agiDef * 2);
 
         int dice = Random.Range(1, 101);
-        Debug.Log(totale);
-        Debug.Log(dice);
         if (dice < totale)
         {
             Debug.Log("Player "+playerCell+ " Colpo andato a segno");

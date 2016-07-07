@@ -33,6 +33,9 @@ public class PopUp : MonoBehaviour {
             refShowTool.cosTxt.text = "Agi : " + GetComponentInChildren<Enemy>().agi;
             refShowTool.hpTxt.text = "HP : " + GetComponentInChildren<Enemy>().hp;
 
+            this.GetComponentInChildren<Enemy>().LookingCell();
+            
+
         }
 
     }
@@ -41,6 +44,20 @@ public class PopUp : MonoBehaviour {
     {
         
         DeactivateTooltip();
+        if (this.GetComponentInChildren<Enemy>())
+        {
+            this.GetComponentInChildren<Enemy>().ResetLookingCell();
+            foreach (var cell in FindObjectOfType<FogOfWar>().destroyCell)
+            {
+                if (cell.GetComponent<SpriteRenderer>().color != Color.red)
+                {
+                    cell.GetComponent<SpriteRenderer>().color = Color.blue;
+                }
+                
+                
+            }
+        }
+        
     }
 
     // Update is called once per frame
